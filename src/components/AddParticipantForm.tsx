@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface AddParticipantFormProps {
-  onAdd: (name: string, email?: string) => void;
+  onAdd: (name: string, email: string) => void;
 }
 
 const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
@@ -15,8 +15,8 @@ const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim()) {
-      onAdd(name.trim(), email.trim() || undefined);
+    if (name.trim() && email.trim()) {
+      onAdd(name.trim(), email.trim());
       setName('');
       setEmail('');
     }
@@ -27,14 +27,14 @@ const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center space-x-2 text-green-700">
           <Users className="w-5 h-5" />
-          <span>Add Participants</span>
+          <span>Ajouter des Participants</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
-            placeholder="Participant name *"
+            placeholder="Nom du participant *"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="border-2 border-red-200 focus:border-red-400"
@@ -42,18 +42,19 @@ const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
           />
           <Input
             type="email"
-            placeholder="Email (optional)"
+            placeholder="Email *"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="border-2 border-red-200 focus:border-red-400"
+            required
           />
           <Button
             type="submit"
             className="w-full bg-gradient-to-r from-red-500 to-green-600 hover:from-red-600 hover:to-green-700 text-white font-semibold"
-            disabled={!name.trim()}
+            disabled={!name.trim() || !email.trim()}
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add to Secret Santa
+            Ajouter au Secret Santa
           </Button>
         </form>
       </CardContent>

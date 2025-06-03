@@ -1,80 +1,25 @@
 
-import { useState } from 'react';
-import { Gift, Shuffle, Users, Sparkles } from 'lucide-react';
+import { Gift, Shuffle, Users, Sparkles, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
 import SnowEffect from '@/components/SnowEffect';
 import ParticipantCard from '@/components/ParticipantCard';
 import AddParticipantForm from '@/components/AddParticipantForm';
 import AssignmentCard from '@/components/AssignmentCard';
-import { Participant, Assignment, generateSecretSantaAssignments, createParticipant } from '@/utils/secretSanta';
+import { useSecretSanta } from '@/hooks/useSecretSanta';
 
 const Index = () => {
-  const [participants, setParticipants] = useState<Participant[]>([]);
-  const [assignments, setAssignments] = useState<Assignment[]>([]);
-  const [isGenerated, setIsGenerated] = useState(false);
-  const { toast } = useToast();
-
-  const addParticipant = (name: string, email?: string) => {
-    const participant = createParticipant(name, email);
-    setParticipants(prev => [...prev, participant]);
-    toast({
-      title: "Participant Added! 🎄",
-      description: `${name} has joined the Secret Santa!`,
-    });
-  };
-
-  const removeParticipant = (id: string) => {
-    setParticipants(prev => prev.filter(p => p.id !== id));
-    setIsGenerated(false);
-    setAssignments([]);
-  };
-
-  const generateAssignments = () => {
-    if (participants.length < 2) {
-      toast({
-        title: "Not enough participants",
-        description: "You need at least 2 people for Secret Santa!",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const newAssignments = generateSecretSantaAssignments(participants);
-      setAssignments(newAssignments);
-      setIsGenerated(true);
-      toast({
-        title: "Secret Santa Generated! 🎁",
-        description: "Everyone has been assigned their Secret Santa!",
-      });
-    } catch (error) {
-      toast({
-        title: "Error generating assignments",
-        description: "Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const revealAssignment = (index: number) => {
-    setAssignments(prev => 
-      prev.map((assignment, i) => 
-        i === index ? { ...assignment, isRevealed: true } : assignment
-      )
-    );
-  };
-
-  const resetAll = () => {
-    setParticipants([]);
-    setAssignments([]);
-    setIsGenerated(false);
-    toast({
-      title: "Reset Complete",
-      description: "Ready for a new Secret Santa!",
-    });
-  };
+  const {
+    participants,
+    assignments,
+    isGenerated,
+    isLoading,
+    addParticipant,
+    removeParticipant,
+    generateAssignments,
+    revealAssignment,
+    resetAll,
+  } = useSecretSanta();
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -90,7 +35,7 @@ const Index = () => {
             Secret Santa Generator
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Create magical holiday moments! Add participants and let the Christmas spirit decide who gives to whom. 🎄✨
+            Créez des moments magiques de fête! Ajoutez des participants et laissez l'esprit de Noël décider qui donne à qui. 🎄✨
           </p>
         </div>
 
@@ -113,10 +58,20 @@ const Index = () => {
                     {participants.length >= 2 && (
                       <Button
                         onClick={generateAssignments}
+                        disabled={isLoading}
                         className="bg-gradient-to-r from-red-500 to-green-600 hover:from-red-600 hover:to-green-700 text-white"
                       >
-                        <Shuffle className="w-4 h-4 mr-2" />
-                        Generate Secret Santa
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Génération...
+                          </>
+                        ) : (
+                          <>
+                            <Shuffle className="w-4 h-4 mr-2" />
+                            Générer Secret Santa
+                          </>
+                        )}
                       </Button>
                     )}
                   </CardTitle>
@@ -125,7 +80,7 @@ const Index = () => {
                   {participants.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
                       <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                      <p>No participants yet. Add some people to get started!</p>
+                      <p>Aucun participant encore. Ajoutez des personnes pour commencer!</p>
                     </div>
                   ) : (
                     participants.map((participant) => (
@@ -149,17 +104,17 @@ const Index = () => {
                 <CardContent className="p-6">
                   <Sparkles className="w-12 h-12 mx-auto mb-3 text-yellow-500 floating" />
                   <h2 className="text-2xl font-bold text-green-700 mb-2">
-                    Secret Santa Assignments Ready!
+                    Assignments Secret Santa prêts!
                   </h2>
                   <p className="text-gray-600 mb-4">
-                    Click on each gift to reveal assignments
+                    Cliquez sur chaque cadeau pour révéler les assignments ou vérifiez vos emails
                   </p>
                   <Button
                     onClick={resetAll}
                     variant="outline"
                     className="border-2 border-red-300 text-red-600 hover:bg-red-50"
                   >
-                    Start Over
+                    Recommencer
                   </Button>
                 </CardContent>
               </Card>

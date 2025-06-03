@@ -9,7 +9,94 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      assignments: {
+        Row: {
+          created_at: string
+          event_id: string | null
+          giver_id: string | null
+          id: string
+          receiver_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_id?: string | null
+          giver_id?: string | null
+          id?: string
+          receiver_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_id?: string | null
+          giver_id?: string | null
+          id?: string
+          receiver_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignments_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "secret_santa_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_giver_id_fkey"
+            columns: ["giver_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_receiver_id_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      participants: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      secret_santa_events: {
+        Row: {
+          created_at: string
+          id: string
+          is_generated: boolean | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_generated?: boolean | null
+          name?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_generated?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
