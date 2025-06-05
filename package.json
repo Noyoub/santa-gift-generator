@@ -1,7 +1,7 @@
 {
   "name": "vite_react_shadcn_ts",
   "private": true,
-  "homepage": "https://Noyoub.github.io/santa-gift-generator",
+  "homepage": "https://noyoub.github.io/santa-gift-generator",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
