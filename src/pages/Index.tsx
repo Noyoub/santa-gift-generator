@@ -1,8 +1,7 @@
 
-import { Gift, Shuffle, Users, Sparkles, Loader2 } from 'lucide-react';
+import { Mail, Shuffle, Users, Settings, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import SnowEffect from '@/components/SnowEffect';
 import ParticipantCard from '@/components/ParticipantCard';
 import AddParticipantForm from '@/components/AddParticipantForm';
 import AssignmentCard from '@/components/AssignmentCard';
@@ -22,20 +21,18 @@ const Index = () => {
   } = useSecretSanta();
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <SnowEffect />
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-red-500 to-green-600 rounded-full mb-6 floating">
-            <Gift className="w-10 h-10 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-700 rounded-lg mb-6 floating">
+            <Mail className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent mb-4">
-            Secret Santa Generator
+          <h1 className="text-4xl font-bold text-slate-800 mb-4">
+            Générateur de Paires Email
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Créez des moments magiques de fête! Ajoutez des participants et laissez l'esprit de Noël décider qui donne à qui. 🎄✨
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Créez des paires aléatoires pour vos participants. Ajoutez des participants et générez les associations automatiquement.
           </p>
         </div>
 
@@ -48,9 +45,9 @@ const Index = () => {
 
             {/* Participants List */}
             <div>
-              <Card className="bg-white/95 backdrop-blur-sm border-2 border-green-200 gift-shadow">
+              <Card className="bg-white border border-slate-200 neutral-shadow">
                 <CardHeader>
-                  <CardTitle className="flex items-center justify-between text-green-700">
+                  <CardTitle className="flex items-center justify-between text-slate-700">
                     <div className="flex items-center space-x-2">
                       <Users className="w-5 h-5" />
                       <span>Participants ({participants.length})</span>
@@ -59,7 +56,7 @@ const Index = () => {
                       <Button
                         onClick={generateAssignments}
                         disabled={isLoading}
-                        className="bg-gradient-to-r from-red-500 to-green-600 hover:from-red-600 hover:to-green-700 text-white"
+                        className="bg-slate-700 hover:bg-slate-800 text-white"
                       >
                         {isLoading ? (
                           <>
@@ -69,7 +66,7 @@ const Index = () => {
                         ) : (
                           <>
                             <Shuffle className="w-4 h-4 mr-2" />
-                            Générer Secret Santa
+                            Générer les Paires
                           </>
                         )}
                       </Button>
@@ -78,7 +75,7 @@ const Index = () => {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {participants.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
+                    <div className="text-center py-8 text-slate-500">
                       <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
                       <p>Aucun participant encore. Ajoutez des personnes pour commencer!</p>
                     </div>
@@ -100,19 +97,19 @@ const Index = () => {
           <div className="max-w-6xl mx-auto">
             {/* Results Header */}
             <div className="text-center mb-8">
-              <Card className="bg-white/95 backdrop-blur-sm border-2 border-yellow-300 gift-shadow max-w-md mx-auto">
+              <Card className="bg-white border border-slate-200 neutral-shadow max-w-md mx-auto">
                 <CardContent className="p-6">
-                  <Sparkles className="w-12 h-12 mx-auto mb-3 text-yellow-500 floating" />
-                  <h2 className="text-2xl font-bold text-green-700 mb-2">
-                    Assignments Secret Santa prêts!
+                  <Settings className="w-12 h-12 mx-auto mb-3 text-slate-600 floating" />
+                  <h2 className="text-2xl font-bold text-slate-700 mb-2">
+                    Paires générées avec succès!
                   </h2>
-                  <p className="text-gray-600 mb-4">
-                    Cliquez sur chaque cadeau pour révéler les assignments ou vérifiez vos emails
+                  <p className="text-slate-600 mb-4">
+                    Cliquez sur chaque carte pour révéler les associations ou vérifiez vos emails
                   </p>
                   <Button
                     onClick={resetAll}
                     variant="outline"
-                    className="border-2 border-red-300 text-red-600 hover:bg-red-50"
+                    className="border-slate-300 text-slate-600 hover:bg-slate-50"
                   >
                     Recommencer
                   </Button>

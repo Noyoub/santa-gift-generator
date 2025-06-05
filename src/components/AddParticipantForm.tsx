@@ -23,9 +23,9 @@ const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
   };
 
   return (
-    <Card className="bg-white/95 backdrop-blur-sm border-2 border-green-200 gift-shadow">
+    <Card className="bg-white border border-slate-200 neutral-shadow">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center space-x-2 text-green-700">
+        <CardTitle className="flex items-center space-x-2 text-slate-700">
           <Users className="w-5 h-5" />
           <span>Ajouter des Participants</span>
         </CardTitle>
@@ -37,7 +37,7 @@ const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
             placeholder="Nom du participant *"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border-2 border-red-200 focus:border-red-400"
+            className="border-slate-300 focus:border-slate-500"
             required
           />
           <Input
@@ -45,16 +45,16 @@ const AddParticipantForm = ({ onAdd }: AddParticipantFormProps) => {
             placeholder="Email *"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border-2 border-red-200 focus:border-red-400"
+            className="border-slate-300 focus:border-slate-500"
             required
           />
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-red-500 to-green-600 hover:from-red-600 hover:to-green-700 text-white font-semibold"
+            className="w-full bg-slate-700 hover:bg-slate-800 text-white font-semibold"
             disabled={!name.trim() || !email.trim()}
           >
             <Plus className="w-4 h-4 mr-2" />
-            Ajouter au Secret Santa
+            Ajouter au Tirage
           </Button>
         </form>
       </CardContent>
